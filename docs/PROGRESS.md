@@ -35,12 +35,12 @@
 
 ### Authentication
 
-- [ ] Employee registration
-- [ ] Email verification
-- [ ] Login
-- [ ] Logout
-- [ ] JWT authentication
-- [ ] Role-based authorization
+- [x] Employee registration
+- [x] Email verification
+- [x] Login
+- [x] Logout
+- [x] JWT authentication
+- [x] Role-based authorization
 
 ### Employee Management
 

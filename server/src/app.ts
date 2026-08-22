@@ -1,4 +1,5 @@
 import authRoutes from "./modules/auth/auth.routes.js";
+import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -14,6 +15,7 @@ app.use(
   }),
 );
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
@@ -22,5 +24,7 @@ app.get("/api/health", (_req, res) => {
     message: "Dayflow API is running",
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 export default app;

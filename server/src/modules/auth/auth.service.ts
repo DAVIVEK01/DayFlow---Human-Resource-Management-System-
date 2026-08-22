@@ -2,8 +2,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../../db/prisma.js";
 import type { LoginInput, RegisterInput } from "./auth.schemas.js";
+import type { Response } from "express";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET: string = process.env.JWT_SECRET ?? (() => {
+  throw new Error("JWT_SECRET is not configured");
+})();
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not configured");
@@ -31,7 +34,7 @@ export async function registerUser(input: RegisterInput) {
         employeeId: input.employeeId,
         email: input.email,
         passwordHash,
-        role: input.role,
+        role: "EMPLOYEE",
         employee: {
           create: {
             firstName: input.firstName,
@@ -79,10 +82,6 @@ export async function loginUser(input: LoginInput) {
     throw new Error("Invalid email or password");
   }
 
-  if (!user.emailVerified) {
-    throw new Error("Please verify your email before logging in");
-  }
-
   const token = jwt.sign(
     {
       userId: user.id,
@@ -103,5 +102,32 @@ export async function loginUser(input: LoginInput) {
       role: user.role,
       employee: user.employee,
     },
+  };
+}
+
+export async function logoutUser() {
+  // Cookie clearing handled in route handler
+}
+
+export async function getMe(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      employee: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return {
+    id: user.id,
+    employeeId: user.employeeId,
+    email: user.email,
+    role: user.role,
+    employee: user.employee,
   };
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { loginSchema, registerSchema } from "./auth.schemas.js";
-import { loginUser, registerUser } from "./auth.service.js";
+import { loginUser, registerUser, logoutUser, getMe } from "./auth.service.js";
+import { requireAuth } from "../../middleware/auth.middleware.js";
 
 const router = Router();
 
@@ -57,6 +58,55 @@ router.post("/login", async (req, res) => {
       success: false,
       error: {
         code: "LOGIN_ERROR",
+        message,
+      },
+    });
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    res.json({
+      success: true,
+      data: {},
+      message: "Logout successful",
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Logout failed";
+
+    res.status(400).json({
+      success: false,
+      error: {
+        code: "LOGOUT_ERROR",
+        message,
+      },
+    });
+  }
+});
+
+router.get("/me", requireAuth, async (req: import("../../middleware/auth.middleware.js").AuthenticatedRequest, res) => {
+  try {
+    const user = await getMe(req.user!.userId);
+
+    res.json({
+      success: true,
+      data: user,
+      message: "User retrieved successfully",
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to retrieve user";
+
+    res.status(404).json({
+      success: false,
+      error: {
+        code: "USER_NOT_FOUND",
         message,
       },
     });
