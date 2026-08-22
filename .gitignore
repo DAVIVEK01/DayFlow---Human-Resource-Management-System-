@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Prisma generated client
+server/src/generated/
+
+# Local files
+.DS_Store
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+# AI / editor generated files
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
