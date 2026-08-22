@@ -1,4 +1,5 @@
 import authRoutes from "./modules/auth/auth.routes.js";
+import employeeRoutes from "./modules/employees/employees.routes.js";
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
@@ -26,5 +27,6 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/employees", employeeRoutes);
 
 export default app;

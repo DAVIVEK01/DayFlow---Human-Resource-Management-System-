@@ -44,6 +44,16 @@
 
 ### Employee Management
 
+- [x] Admin: List employees
+- [x] Admin: View employee details
+- [x] Admin: Create employee
+- [x] Admin: Update employee
+- [x] Admin: Delete/deactivate employee
+- [x] Employee: View own profile
+- [x] Employee: Update permitted fields (phone, address, profile picture)
+
+### Dashboard
+
 - [ ] Employee profile
 - [ ] Employee self-service
 - [ ] Admin employee management
@@ -132,9 +142,12 @@ docs/SRS.md
 
 Current Task
 
-Project initialization
+Employee Management MVP
 
-No application feature implementation has started yet.
+- Admin: List/ View/ Create/ Update/ Delete employees
+- Employee: Self-profile view/ update
+
+Completed functionality listed above.
 
 Change Log
 Initial Setup
